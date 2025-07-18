@@ -20,7 +20,11 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
     occupation: {
-      typeof: String,
+      type: String,
+    },
+    bio: {
+      type: String,
+      default: "",
     },
     photoUrl: {
       type: String,

@@ -2,6 +2,18 @@ import { Blog } from "../models/blog.js";
 
 export const createBlog = async (req, res) => {
   try {
+    console.log("POST /api/v1/blog - Creating blog");
+    console.log("Request body:", req.body);
+
+    // Check if req.body exists
+    if (!req.body) {
+      console.log("No request body found");
+      return res.status(400).json({
+        isSuccess: false,
+        message: "Request body is required",
+      });
+    }
+
     const { title, category, subtitle, description } = req.body;
     if (!title || !category) {
       return res.status(400).json({
@@ -43,9 +55,6 @@ export const updateBlog = async (req, res) => {
       });
     }
 
-    // let thumbnail;
-    // ----------->
-
     const updateData = {
       title,
       subtitle,
@@ -72,12 +81,15 @@ export const updateBlog = async (req, res) => {
 // Fetch all blogs
 export const getAllBlogs = async (req, res) => {
   try {
+    console.log("GET /api/v1/blog - Fetching all blogs");
     const blogs = await Blog.find();
+    console.log(`Found ${blogs.length} blogs`);
     res.status(200).json({
       isSuccess: true,
       blogs,
     });
   } catch (err) {
+    console.error("Error fetching blogs:", err);
     res.status(500).json({
       isSuccess: false,
       message: "Failed to fetch blogs",

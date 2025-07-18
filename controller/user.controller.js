@@ -90,7 +90,9 @@ export const login = async (req, res) => {
       });
     }
 
-    const token = await jwt.sign({ userId: user._id }, process.env.SECRET_KEY, {
+    const secretKey =
+      process.env.SECRET_KEY || "fallback_secret_key_change_in_production";
+    const token = await jwt.sign({ userId: user._id }, secretKey, {
       expiresIn: "1d",
     });
     // Set the token as a cookie
@@ -127,7 +129,7 @@ export const logout = async (_, res) => {
 
 export const updateProfile = async (req, res) => {
   try {
-    const userId = req._id;
+    const userId = req.id;
     const {
       firstName,
       lastName,
@@ -135,7 +137,7 @@ export const updateProfile = async (req, res) => {
       bio,
       instagram,
       facebook,
-      linkdin,
+      linkedin,
       github,
     } = req.body;
     const file = req.file;
@@ -156,7 +158,7 @@ export const updateProfile = async (req, res) => {
     if (occupation) user.occupation = occupation;
     if (instagram) user.instagram = instagram;
     if (facebook) user.facebook = facebook;
-    if (linkdin) user.linkedin = linkdin;
+    if (linkedin) user.linkedin = linkedin;
     if (github) user.github = github;
     if (bio) user.bio = bio;
 
@@ -195,7 +197,7 @@ export const getAllUsers = async (req, res) => {
 
 export const getProfile = async (req, res) => {
   try {
-    const userId = req._id;
+    const userId = req.id;
     const user = await User.findById(userId).select("-password");
     if (!user) {
       return res.status(404).json({

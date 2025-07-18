@@ -1,5 +1,10 @@
 {
   "type": "module",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "node app.js"
+  },
   "dependencies": {
     "@types/cookie-parser": "^1.4.9",
     "bcrypt": "^6.0.0",
