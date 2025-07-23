@@ -20,10 +20,22 @@ app.use(
     credentials: true,
   })
 );
+
+console.log("Registering /api/v1/user routes");
 app.use("/api/v1/user", userRoute);
+console.log("Registering /api/v1/blog routes");
 app.use("/api/v1/blog", blogRouter);
 
 app.listen(PORT, () => {
   console.log(`server listen at ${PORT}`);
   connectDB();
+});
+
+// Fallback 404 handler
+app.use((req, res) => {
+  res.status(404).json({
+    isSuccess: false,
+    message: "Route not found",
+    path: req.originalUrl,
+  });
 });

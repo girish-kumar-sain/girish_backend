@@ -9,8 +9,19 @@ import {
 
 const router = express.Router();
 
-router.route("/").post(isAuthenticated, createBlog).get(getAllBlogs);
+// Logging middleware for POST /
+// router.post(
+//   "/",
+//   (req, res, next) => {
+//     console.log("POST /api/v1/blog route hit");
+//     next();
+//   },
+//   isAuthenticated,
+//   createBlog
+// );
+router.post("/create", createBlog);
+router.get("/get", getAllBlogs);
 router.route("/:blogId").put(isAuthenticated, updateBlog);
-// router.route("/:blogId").patch()
+// router.route(":/blogId").patch()
 
 export default router;
